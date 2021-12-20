@@ -1,4 +1,4 @@
-from icrawler.builtin import BaiduImageCrawler, BingImageCrawler, GoogleImageCrawler
+from icrawler.builtin import GoogleImageCrawler
 
 import argparse
 
@@ -17,7 +17,6 @@ google_crawler = GoogleImageCrawler(parser_threads=2, downloader_threads=4,
 
 try:
     google_crawler.crawl(keyword=args.query, offset=0, max_num=args.max,
-                         date_min=None, date_max=None,
                          min_size=(200,200), max_size=None)
 finally:
     if args.prefix is not None:

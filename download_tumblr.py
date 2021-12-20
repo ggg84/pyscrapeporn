@@ -21,6 +21,7 @@ def create_database(tumblr, nmax=None):
         pbar.write('asking new page %s' % url)
         try:
             response = urllib.request.urlopen(url, timeout=3).read()
+            response = response.decode()
         except socket.timeout:
             pbar.write('timeout')
             break
