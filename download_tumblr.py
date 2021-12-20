@@ -1,7 +1,7 @@
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import json
 import pandas
-from urlparse import urlparse
+from urllib.parse import urlparse
 import os
 from tqdm import tqdm
 import socket
@@ -20,7 +20,7 @@ def create_database(tumblr, nmax=None):
         url = "https://%s.tumblr.com/api/read/json?type=photo&num=%d&start=%d#_=_" % (tumblr, NPOSTS, start)
         pbar.write('asking new page %s' % url)
         try:
-            response = urllib2.urlopen(url, timeout=3).read()
+            response = urllib.request.urlopen(url, timeout=3).read()
         except socket.timeout:
             pbar.write('timeout')
             break
@@ -38,7 +38,7 @@ def create_database(tumblr, nmax=None):
             ext = os.path.splitext(url)[1]
             if ext not in ['.jpg', '.JPG']:
                 continue
-            if 'tags' not in r['posts'][ipost].keys():
+            if 'tags' not in list(r['posts'][ipost].keys()):
                 continue
             tags.append(r['posts'][ipost]['tags'])
             urls.append(url)
@@ -53,7 +53,7 @@ def create_database(tumblr, nmax=None):
     df = df.set_index('image_id')
     df = df[~df.index.duplicated(keep='first')]
 
-    print "dowloaded: %s" % len(df)
+    print("dowloaded: %s" % len(df))
     
 #    df.to_csv('output_tumblr_%s.csv' % tumblr)
     df.to_json('output_tumblr_%s.json' % tumblr)

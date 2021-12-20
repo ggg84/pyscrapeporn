@@ -21,7 +21,7 @@ try:
                          min_size=(200,200), max_size=None)
 finally:
     if args.prefix is not None:
-        print "adding prefix"
+        print("adding prefix")
         import os
         import glob
         fs = glob.glob(os.path.join(args.directory, '*'))
